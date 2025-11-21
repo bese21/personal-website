@@ -8,6 +8,7 @@ import { Footer } from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { VisitTracker } from "@/components/visit-tracker"
+import { ChatBot } from "@/components/chat-bot"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -51,6 +52,7 @@ export default function RootLayout({
           <Toaster />
           <Analytics />
           <VisitTracker />
+          <ChatBot />
         </ThemeProvider>
       </body>
     </html>

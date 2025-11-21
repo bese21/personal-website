@@ -4,7 +4,7 @@ import type React from "react"
 
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { Menu, X, Moon, Sun } from "lucide-react"
+import { Menu, X, Moon, Sun, Download } from "lucide-react"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
@@ -87,6 +87,11 @@ export function Navigation() {
                 {item.label}
               </a>
             ))}
+            <Button variant="outline" size="sm" className="gap-2 bg-transparent" asChild>
+              <a href="#" target="_blank" rel="noopener noreferrer">
+                <Download className="h-4 w-4" /> CV
+              </a>
+            </Button>
             {mounted && (
               <Button
                 variant="ghost"
@@ -101,6 +106,11 @@ export function Navigation() {
 
           {/* Mobile Menu Button */}
           <div className="flex items-center gap-2 md:hidden">
+            <Button variant="ghost" size="icon" asChild>
+              <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Download CV">
+                <Download className="h-5 w-5" />
+              </a>
+            </Button>
             {mounted && (
               <Button
                 variant="ghost"
@@ -134,6 +144,11 @@ export function Navigation() {
                   {item.label}
                 </a>
               ))}
+              <Button variant="outline" size="sm" className="gap-2 w-full justify-center bg-transparent" asChild>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  <Download className="h-4 w-4" /> CV
+                </a>
+              </Button>
             </div>
           </div>
         )}

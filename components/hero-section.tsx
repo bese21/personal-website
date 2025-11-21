@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Code, Palette, Zap } from "lucide-react"
+import { ArrowRight, Code, Palette, Zap, Download } from "lucide-react"
 import Link from "next/link"
 
 export default function HeroSection() {
@@ -28,6 +28,11 @@ export default function HeroSection() {
             </Button>
             <Button asChild variant="outline" size="lg">
               <Link href="#contact">Get In Touch</Link>
+            </Button>
+            <Button variant="secondary" size="lg" className="gap-2" asChild>
+              <a href="#" target="_blank" rel="noopener noreferrer">
+                <Download className="h-4 w-4" /> Download CV
+              </a>
             </Button>
           </div>
         </div>
