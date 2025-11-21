@@ -1,40 +1,46 @@
 "use client"
 
 import type React from "react"
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Mail, MapPin, Phone, Send } from "lucide-react"
-import { useState } from "react"
+import { Mail, MapPin, Phone, Send, Loader2 } from "lucide-react"
+import { useTransition } from "react"
+import { sendEmail } from "@/app/actions"
+import { useToast } from "@/hooks/use-toast"
 
 export default function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  })
+  const [isPending, startTransition] = useTransition()
+  const { toast } = useToast()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // This is a UI-only form. In a real app, you would connect this to a backend or service
-    console.log("Form submitted:", formData)
-    alert("Thank you for your message! (This is a demo form)")
-    setFormData({ name: "", email: "", subject: "", message: "" })
-  }
+    const formData = new FormData(e.currentTarget)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }))
+    startTransition(async () => {
+      const result = await sendEmail(null, formData)
+
+      if (result.success) {
+        toast({
+          title: "Message Sent",
+          description: "Thank you for your message! I'll get back to you soon.",
+        })
+        // Reset form
+        ;(e.target as HTMLFormElement).reset()
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: result.message,
+        })
+      }
+    })
   }
 
   return (
-    <section className="container mx-auto px-4 py-20">
+    <section id="contact" className="container mx-auto px-4 py-20">
       <div className="mx-auto max-w-5xl">
         {/* Header */}
         <div className="mb-12 text-center">
@@ -119,14 +125,7 @@ export default function ContactSection() {
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="name">Name *</Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      placeholder="Your name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                    />
+                    <Input id="name" name="name" placeholder="Your name" required disabled={isPending} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email *</Label>
@@ -135,23 +134,15 @@ export default function ContactSection() {
                       name="email"
                       type="email"
                       placeholder="your.email@example.com"
-                      value={formData.email}
-                      onChange={handleChange}
                       required
+                      disabled={isPending}
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="subject">Subject *</Label>
-                  <Input
-                    id="subject"
-                    name="subject"
-                    placeholder="What's this about?"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                  />
+                  <Input id="subject" name="subject" placeholder="What's this about?" required disabled={isPending} />
                 </div>
 
                 <div className="space-y-2">
@@ -160,15 +151,22 @@ export default function ContactSection() {
                     id="message"
                     name="message"
                     placeholder="Tell me about your project or inquiry..."
-                    value={formData.message}
-                    onChange={handleChange}
                     rows={6}
                     required
+                    disabled={isPending}
                   />
                 </div>
 
-                <Button type="submit" size="lg" className="w-full gap-2">
-                  Send Message <Send className="h-4 w-4" />
+                <Button type="submit" size="lg" className="w-full gap-2" disabled={isPending}>
+                  {isPending ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" /> Sending...
+                    </>
+                  ) : (
+                    <>
+                      Send Message <Send className="h-4 w-4" />
+                    </>
+                  )}
                 </Button>
               </form>
             </CardContent>

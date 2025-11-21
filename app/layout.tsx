@@ -6,6 +6,8 @@ import "./globals.css"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/toaster"
+import { VisitTracker } from "@/components/visit-tracker"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -46,7 +48,9 @@ export default function RootLayout({
           <Navigation />
           <main className="min-h-screen">{children}</main>
           <Footer />
+          <Toaster />
           <Analytics />
+          <VisitTracker />
         </ThemeProvider>
       </body>
     </html>
