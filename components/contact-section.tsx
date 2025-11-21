@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Mail, MapPin, Phone, Send } from "lucide-react"
 import { useState } from "react"
 
-export default function ContactPage() {
+export default function ContactSection() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -34,11 +34,11 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-20">
+    <section className="container mx-auto px-4 py-20">
       <div className="mx-auto max-w-5xl">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">Get In Touch</h1>
+          <h2 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">Get In Touch</h2>
           <p className="text-lg text-muted-foreground text-balance">
             Have a project in mind? Let's discuss how we can work together
           </p>
@@ -184,6 +184,6 @@ export default function ContactPage() {
           </Button>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

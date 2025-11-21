@@ -3,11 +3,6 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ExternalLink, Github } from "lucide-react"
 
-export const metadata = {
-  title: "Projects - Besufikad Zenebe",
-  description: "Explore my portfolio of web development projects and AI solutions",
-}
-
 const projects = [
   {
     title: "AI Banking Chatbot",
@@ -65,13 +60,13 @@ const projects = [
   },
 ]
 
-export default function ProjectsPage() {
+export default function ProjectsSection() {
   return (
-    <div className="container mx-auto px-4 py-20">
+    <section className="container mx-auto px-4 py-20 bg-muted/30">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">My Projects</h1>
+          <h2 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">My Projects</h2>
           <p className="text-lg text-muted-foreground text-balance">A showcase of my recent work and side projects</p>
         </div>
 
@@ -117,6 +112,6 @@ export default function ProjectsPage() {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   )
 }

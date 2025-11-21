@@ -1,18 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Award, Briefcase, GraduationCap } from "lucide-react"
 
-export const metadata = {
-  title: "About - Besufikad Zenebe",
-  description: "Learn more about Besufikad Zenebe's background, experience, and passion for development",
-}
-
-export default function AboutPage() {
+export default function AboutSection() {
   return (
-    <div className="container mx-auto px-4 py-20">
+    <section className="container mx-auto px-4 py-20">
       <div className="mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">About Me</h1>
+          <h2 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">About Me</h2>
           <p className="text-lg text-muted-foreground text-balance">
             Passionate developer dedicated to creating impactful digital solutions
           </p>
@@ -22,13 +17,13 @@ export default function AboutPage() {
         <div className="mb-16 flex flex-col items-center gap-8 md:flex-row">
           <div className="h-64 w-64 flex-shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5">
             <img
-              src="https://res.cloudinary.com/dbyxbkhsz/image/upload/v1763646208/20251101_094732_na1eeu.jpg"
+              src="https://res.cloudinary.com/dbyxbkhsz/image/upload/v1763705468/photo_2025-11-20_22-09-35_kkr6l5.jpg"
               alt="Besufikad Zenebe"
               className="h-full w-full object-cover"
             />
           </div>
           <div>
-            <h2 className="mb-4 text-2xl font-semibold text-foreground">Hello, I'm Besufikad Zenebe</h2>
+            <h3 className="mb-4 text-2xl font-semibold text-foreground">Hello, I'm Besufikad Zenebe</h3>
             <p className="mb-4 leading-relaxed text-muted-foreground">
               I'm a passionate full-stack developer currently working as an AI Trainer at Abyssinia Bank's AI Excellence
               Center. I graduated from Addis Ababa Science and Technology University with a degree in Software
@@ -84,7 +79,7 @@ export default function AboutPage() {
 
         {/* Timeline */}
         <div className="mt-16">
-          <h2 className="mb-8 text-2xl font-semibold text-foreground">Career Timeline</h2>
+          <h3 className="mb-8 text-2xl font-semibold text-foreground">Career Timeline</h3>
           <div className="space-y-8">
             <div className="flex gap-4">
               <div className="flex flex-col items-center">
@@ -95,7 +90,7 @@ export default function AboutPage() {
               </div>
               <div className="pb-8">
                 <div className="mb-1 text-sm text-muted-foreground">Present</div>
-                <h3 className="mb-2 text-lg font-semibold text-foreground">AI Trainer - Abyssinia Bank</h3>
+                <h4 className="mb-2 text-lg font-semibold text-foreground">AI Trainer - Abyssinia Bank</h4>
                 <p className="text-muted-foreground">
                   Working at the AI Excellence Center, focusing on AI model training, integration of AI solutions into
                   banking systems, and developing innovative applications for digital transformation
@@ -112,7 +107,7 @@ export default function AboutPage() {
               </div>
               <div className="pb-8">
                 <div className="mb-1 text-sm text-muted-foreground">University Years</div>
-                <h3 className="mb-2 text-lg font-semibold text-foreground">Software Engineering Student</h3>
+                <h4 className="mb-2 text-lg font-semibold text-foreground">Software Engineering Student</h4>
                 <p className="text-muted-foreground">
                   Studied at Addis Ababa Science and Technology University, focusing on software development, artificial
                   intelligence, and engineering principles
@@ -128,7 +123,7 @@ export default function AboutPage() {
               </div>
               <div>
                 <div className="mb-1 text-sm text-muted-foreground">Beginning</div>
-                <h3 className="mb-2 text-lg font-semibold text-foreground">Started Coding Journey</h3>
+                <h4 className="mb-2 text-lg font-semibold text-foreground">Started Coding Journey</h4>
                 <p className="text-muted-foreground">
                   Discovered passion for programming and began learning web development fundamentals and exploring
                   artificial intelligence
@@ -138,6 +133,6 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

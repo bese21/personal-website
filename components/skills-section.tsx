@@ -2,11 +2,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Code2, Database, Layout, Server, PenTool as Tool, Brain } from "lucide-react"
 
-export const metadata = {
-  title: "Skills - Besufikad Zenebe",
-  description: "Technical skills and expertise in AI, full-stack development, and banking technologies",
-}
-
 const skillCategories = [
   {
     title: "AI & Machine Learning",
@@ -129,13 +124,13 @@ const proficiencyLevels = [
   },
 ]
 
-export default function SkillsPage() {
+export default function SkillsSection() {
   return (
-    <div className="container mx-auto px-4 py-20">
+    <section className="container mx-auto px-4 py-20">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">Skills & Expertise</h1>
+          <h2 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">Skills & Expertise</h2>
           <p className="text-lg text-muted-foreground text-balance">
             Technologies and tools I work with to bring ideas to life
           </p>
@@ -201,7 +196,7 @@ export default function SkillsPage() {
 
         {/* Additional Info */}
         <div className="mt-12 rounded-2xl bg-muted/50 p-8 text-center">
-          <h2 className="mb-4 text-2xl font-semibold text-foreground">Always Learning</h2>
+          <h3 className="mb-4 text-2xl font-semibold text-foreground">Always Learning</h3>
           <p className="mx-auto max-w-2xl text-muted-foreground text-balance">
             Technology evolves rapidly, and so do I. I'm constantly exploring new AI models, banking technologies, and
             best practices to stay at the forefront of innovation. Currently focusing on advanced AI integration in
@@ -209,6 +204,6 @@ export default function SkillsPage() {
           </p>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
