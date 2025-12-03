@@ -17,7 +17,7 @@ export default function AboutSection() {
         <div className="mb-16 flex flex-col items-center gap-8 md:flex-row">
           <div className="h-64 w-64 flex-shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5">
             <img
-              src="https://res.cloudinary.com/dbyxbkhsz/image/upload/v1763705468/photo_2025-11-20_22-09-35_kkr6l5.jpg"
+              src="https://res.cloudinary.com/dbyxbkhsz/image/upload/v1764768577/photo_2025-12-03_05-25-19_lcampi.jpg"
               alt="Besufikad Zenebe"
               className="h-full w-full object-cover"
             />

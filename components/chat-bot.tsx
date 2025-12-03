@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { useChat } from "@ai-sdk/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,14 +11,48 @@ import { cn } from "@/lib/utils"
 
 const FAQs = [
   "What are your main skills?",
-  "Tell me about your experience at Abyssinia Bank",
+  "What is your strongest programming language?",
+  "Do you know JavaScript/React?",
+  "Tell me about your experience at Abyssinia Bank.",
   "What projects have you worked on?",
+  "What is your biggest project so far?",
   "How can I contact you?",
+  "Are you available for freelance work?",
+  "What is your education background?",
+  "Do you have any certifications?",
+  "What databases do you work with?",
+  "Do you know Docker or Kubernetes?",
+  "Can you work with teams?",
+  "What tools do you use daily?",
+  "Do you speak English fluently?",
+  "Where are you located?",
+  "What is your availability?",
+  "Do you have any hobbies?",
+  "Why did you choose backend development?",
+  "What is your favorite project you've built?",
+  "Do you know any frontend frameworks?",
+  "Have you worked with payment gateways?",
+  "Can you design databases?",
+  "Do you write tests?",
+  "What is your GitHub profile?",
+  "Do you prefer remote or office work?",
+  "How fast can you deliver a project?",
+  "Are you currently employed?",
+  "Do you know DevOps?",
+  "What's the best way to get in touch quickly?",
 ]
+
+interface Message {
+  id: string
+  role: "user" | "assistant"
+  content: string
+}
 
 export function ChatBot() {
   const [isOpen, setIsOpen] = useState(false)
-  const { messages, input, handleInputChange, handleSubmit, isLoading, append, setInput } = useChat()
+  const [messages, setMessages] = useState<Message[]>([])
+  const [input, setInput] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -35,15 +68,72 @@ export function ChatBot() {
     }
   }, [isOpen])
 
-  const handleFAQClick = (question: string) => {
-    if (typeof append === "function") {
-      append({
-        role: "user",
-        content: question,
-      })
-    } else if (typeof setInput === "function") {
-      setInput(question)
+  const fetchAnswer = async (question: string) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/faq/?q=${encodeURIComponent(question)}`)
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch answer")
+      }
+
+      const data = await response.json()
+      return data.answer
+    } catch (error) {
+      console.error("Error fetching answer:", error)
+      return "Sorry, I couldn't fetch an answer at the moment. Please try again later."
     }
+  }
+
+  const handleFAQClick = async (question: string) => {
+    // Add user message
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: "user",
+      content: question,
+    }
+    setMessages((prev) => [...prev, userMessage])
+    setIsLoading(true)
+
+    // Fetch answer from API
+    const answer = await fetchAnswer(question)
+
+    // Add assistant message
+    const assistantMessage: Message = {
+      id: (Date.now() + 1).toString(),
+      role: "assistant",
+      content: answer,
+    }
+    setMessages((prev) => [...prev, assistantMessage])
+    setIsLoading(false)
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!input.trim() || isLoading) return
+
+    const question = input.trim()
+    setInput("")
+
+    // Add user message
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: "user",
+      content: question,
+    }
+    setMessages((prev) => [...prev, userMessage])
+    setIsLoading(true)
+
+    // Fetch answer from API
+    const answer = await fetchAnswer(question)
+
+    // Add assistant message
+    const assistantMessage: Message = {
+      id: (Date.now() + 1).toString(),
+      role: "assistant",
+      content: answer,
+    }
+    setMessages((prev) => [...prev, assistantMessage])
+    setIsLoading(false)
   }
 
   return (
@@ -99,18 +189,6 @@ export function ChatBot() {
                       <p>Tired of reading my CV? Don't worry, I trained my AI to answer your questions.</p>
                     </div>
                   </div>
-                  <div className="grid gap-2">
-                    <p className="text-xs font-medium text-muted-foreground">Suggested questions:</p>
-                    {FAQs.map((faq, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleFAQClick(faq)}
-                        className="text-left rounded-lg border border-border bg-background p-2 text-xs transition-colors hover:bg-muted"
-                      >
-                        {faq}
-                      </button>
-                    ))}
-                  </div>
                 </div>
               )}
 
@@ -139,20 +217,29 @@ export function ChatBot() {
                   </div>
                 </div>
               )}
+
+              {/* Always show FAQ questions */}
+              <div className={cn("grid gap-2", messages.length > 0 && "mt-4 pt-4 border-t border-border")}>
+                <p className="text-xs font-medium text-muted-foreground">Suggested questions:</p>
+                {FAQs.map((faq, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleFAQClick(faq)}
+                    disabled={isLoading}
+                    className="text-left rounded-lg border border-border bg-background p-2 text-xs transition-colors hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {faq}
+                  </button>
+                ))}
+              </div>
             </ScrollArea>
           </CardContent>
           <CardFooter className="p-4 pt-0">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault()
-                handleSubmit(e)
-              }}
-              className="flex w-full gap-2"
-            >
+            <form onSubmit={handleSubmit} className="flex w-full gap-2">
               <Input
                 ref={inputRef}
                 value={input}
-                onChange={handleInputChange}
+                onChange={(e) => setInput(e.target.value)}
                 placeholder="Type your question..."
                 className="flex-1"
               />

@@ -88,7 +88,7 @@ export function Navigation() {
               </a>
             ))}
             <Button variant="outline" size="sm" className="gap-2 bg-transparent" asChild>
-              <a href="#" target="_blank" rel="noopener noreferrer">
+              <a href="https://drive.google.com/uc?export=download&id=1ZRms8u6azAv-_ZEobf1xzzfTmgeee7GO" download>
                 <Download className="h-4 w-4" /> CV
               </a>
             </Button>
@@ -107,7 +107,7 @@ export function Navigation() {
           {/* Mobile Menu Button */}
           <div className="flex items-center gap-2 md:hidden">
             <Button variant="ghost" size="icon" asChild>
-              <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Download CV">
+              <a href="https://drive.google.com/uc?export=download&id=1ZRms8u6azAv-_ZEobf1xzzfTmgeee7GO" download aria-label="Download CV">
                 <Download className="h-5 w-5" />
               </a>
             </Button>
@@ -145,7 +145,7 @@ export function Navigation() {
                 </a>
               ))}
               <Button variant="outline" size="sm" className="gap-2 w-full justify-center bg-transparent" asChild>
-                <a href="#" target="_blank" rel="noopener noreferrer">
+                <a href="https://drive.google.com/uc?export=download&id=1ZRms8u6azAv-_ZEobf1xzzfTmgeee7GO" download>
                   <Download className="h-4 w-4" /> CV
                 </a>
               </Button>

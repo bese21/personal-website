@@ -30,7 +30,7 @@ export default function HeroSection() {
               <Link href="#contact">Get In Touch</Link>
             </Button>
             <Button variant="secondary" size="lg" className="gap-2" asChild>
-              <a href="#" target="_blank" rel="noopener noreferrer">
+              <a href="https://drive.google.com/uc?export=download&id=1ZRms8u6azAv-_ZEobf1xzzfTmgeee7GO" download>
                 <Download className="h-4 w-4" /> Download CV
               </a>
             </Button>
