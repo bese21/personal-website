@@ -1,0 +1,9 @@
+from rest_framework import serializers
+
+
+class LoginSerializer(serializers.Serializer):
+    """Simple serializer to validate login payload."""
+
+    username = serializers.CharField(max_length=150)
+    password = serializers.CharField(write_only=True, trim_whitespace=False)
+
