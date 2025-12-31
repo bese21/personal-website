@@ -8,31 +8,47 @@ import { MessageCircle, X, Send, Loader2 } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
-import { useChat } from "@ai-sdk/react"
 
-const FAQs = [
-  "What are your main skills?",
-  "What is your strongest programming language?",
-  "Tell me about your experience at Abyssinia Bank.",
-  "What projects have you worked on?",
-  "How can I contact you?",
-  "Are you available for freelance work?",
-  "What is your education background?",
-  "Do you have any certifications?",
-  "What databases do you work with?",
-  "Do you know Docker or Kubernetes?",
-  "Do you speak English fluently?",
-  "Where are you located?",
-  "What is your GitHub profile?",
-]
+const QA_PAIRS: Record<string, string> = {
+  "What are your main skills?":
+    "My main skills include Full Stack Development (React, Next.js, Node.js), AI Integration, TypeScript, Python, and Machine Learning.",
+  "What is your strongest programming language?":
+    "TypeScript and JavaScript are my strongest, as I use them daily for full-stack development, but I'm also very proficient in Python for AI and data tasks.",
+  "Tell me about your experience at Abyssinia Bank.":
+    "I currently serve as an AI Trainer at Abyssinia Bank's AI Excellence Center, where I focus on AI-driven solutions and integrating modern technology into banking workflows.",
+  "What projects have you worked on?":
+    "I've worked on various projects including this personal portfolio, loan request management systems, and several AI-integrated web applications.",
+  "How can I contact you?":
+    "You can reach me via email at besufikadzenebe478@gmail.com or call me at +251 94 521 3881.",
+  "Are you available for freelance work?":
+    "Yes, I am open to freelance opportunities! Please contact me with your project details.",
+  "What is your education background?":
+    "I graduated with a degree in Software Engineering from Addis Ababa Science and Technology University (AASTU).",
+  "Do you have any certifications?":
+    "I have several certifications in Full Stack Development and AI/Machine Learning from platforms like Coursera and LinkedIn Learning.",
+  "What databases do you work with?":
+    "I regularly work with PostgreSQL, MongoDB, and Redis. I also have experience with vector databases like Pinecone and ChromaDB for AI projects.",
+  "Do you know Docker or Kubernetes?":
+    "Yes, I use Docker for containerizing my applications to ensure consistency across different environments.",
+  "Do you speak English fluently?":
+    "Yes, I am fluent in English, which allows me to collaborate effectively in international environments.",
+  "Where are you located?": "I am based in Addis Ababa, Ethiopia.",
+  "What is your GitHub profile?": "You can find my work on GitHub at github.com/bese21.",
+}
+
+const FAQs = Object.keys(QA_PAIRS)
+
+type Message = {
+  id: string
+  role: "user" | "assistant"
+  content: string
+}
 
 export function ChatBot() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading, append } = useChat()
-  const [isOpen, setIsOpen] = useState(false) // Changed to standard useState
-  // Note: Using a simple state for isOpen instead of the tricky one above to avoid hydration issues
-  // const [open, setOpen] = useRef(false).current ? [false, () => { }] : [false, (v: boolean) => { }] // Placeholder
-  // Use proper state
-  // const [isChatOpen, setIsChatOpen] = useRef(false).current ? [false, () => { }] : [false, (v: boolean) => { }] // Wait, let's just do it cleanly
+  const [messages, setMessages] = useState<Message[]>([])
+  const [input, setInput] = useState("")
+  const [isOpen, setIsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -49,11 +65,59 @@ export function ChatBot() {
     }
   }, [isOpen])
 
-  const handleFAQClick = async (question: string) => {
-    append({
-      role: 'user',
-      content: question,
-    })
+  const getResponse = (query: string): string => {
+    const normalizedQuery = query.toLowerCase().trim()
+
+    // Exact match search
+    for (const [question, answer] of Object.entries(QA_PAIRS)) {
+      if (question.toLowerCase() === normalizedQuery) {
+        return answer
+      }
+    }
+
+    // Keyword search
+    for (const [question, answer] of Object.entries(QA_PAIRS)) {
+      const keywords = question.toLowerCase().replace(/[?]/g, "").split(" ")
+      if (keywords.some((k) => k.length > 3 && normalizedQuery.includes(k))) {
+        return answer
+      }
+    }
+
+    return "I'm not sure about that one. Try clicking one of the suggested questions or contact Besufikad directly!"
+  }
+
+  const handleSend = async (content: string) => {
+    if (!content.trim()) return
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: "user",
+      content,
+    }
+
+    setMessages((prev) => [...prev, userMessage])
+    setInput("")
+    setIsLoading(true)
+
+    // Simulate small delay for natural feel
+    setTimeout(() => {
+      const response: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: getResponse(content),
+      }
+      setMessages((prev) => [...prev, response])
+      setIsLoading(false)
+    }, 500)
+  }
+
+  const handleFAQClick = (question: string) => {
+    handleSend(question)
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    handleSend(input)
   }
 
   return (
@@ -84,8 +148,8 @@ export function ChatBot() {
                 <AvatarFallback>BZ</AvatarFallback>
               </Avatar>
               <div>
-                <CardTitle className="text-base">Besufikad's AI Assistant</CardTitle>
-                <p className="text-xs text-primary-foreground/80">Ask me anything!</p>
+                <CardTitle className="text-base">Besufikad's Assistant</CardTitle>
+                <p className="text-xs text-primary-foreground/80">I can answer common questions!</p>
               </div>
             </div>
             <Button
@@ -106,7 +170,7 @@ export function ChatBot() {
                       <AvatarFallback>AI</AvatarFallback>
                     </Avatar>
                     <div className="rounded-lg bg-muted p-3 text-sm">
-                      <p>Tired of reading my CV? Don't worry, I trained my AI to answer your questions.</p>
+                      <p>Hello! I can answer your questions about Besufikad. Feel free to ask or use the suggestions below.</p>
                     </div>
                   </div>
                 </div>
@@ -161,7 +225,7 @@ export function ChatBot() {
               <Input
                 ref={inputRef}
                 value={input}
-                onChange={handleInputChange}
+                onChange={(e) => setInput(e.target.value)}
                 placeholder="Type your question..."
                 className="flex-1"
               />
