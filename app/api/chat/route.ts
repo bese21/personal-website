@@ -1,4 +1,4 @@
-import { openai } from "@ai-sdk/openai"
+import { ollama } from "@ai-sdk/ollama"
 import { streamText } from "ai"
 
 export const maxDuration = 30
@@ -7,7 +7,7 @@ export async function POST(req: Request) {
   const { messages } = await req.json()
 
   const result = streamText({
-    model: openai("gpt-4o"),
+    model: ollama("llama2"),
     system: `You are a helpful AI assistant for Besufikad Zenebe's portfolio website. 
     Your goal is to answer questions about Besufikad based on his professional background.
     
@@ -26,5 +26,5 @@ export async function POST(req: Request) {
     messages,
   })
 
-  return result.toUIMessageStreamResponse()
+  return result.toTextStreamResponse()
 }
